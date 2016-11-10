@@ -7,9 +7,9 @@
 #include "stdincludes.h"
 
 // Marcos
-#define DFLT_CORE	4
-#define DFLT_MMRY	1024
-#define DFLT_BAND	256
+#define CONTAINER_CORE	4
+#define CONTAINER_MMRY	1024
+#define CONTAINER_BAND	256
 
 /**
  * CLASS NAME: AppContainer
@@ -18,8 +18,9 @@
  */
 class AppContainer {
 public:
-	AppContainer() : AppContainer(DFLT_CORE, DFLT_MMRY, DFLT_BAND) {};
-	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth);	
+	AppContainer() : AppContainer(CONTAINER_CORE, CONTAINER_MMRY, CONTAINER_BAND) {};
+	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth);
+	~AppContainer();
 
 	void update(int usrs, int objs);
 	void updateUsr(int usrs);

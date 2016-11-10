@@ -6,7 +6,6 @@
 
 #include "Container.h"
 
-
 /**
  * Constructor of the AppContainer class
  */
@@ -17,8 +16,10 @@ AppContainer::AppContainer(unsigned int cores, unsigned int memory, unsigned int
 	bound_Bandwidth = bandwidth;
 	/* Set the number of users and objects */
 	update(0, 0);
+}
+AppContainer::~AppContainer(){
+	printf("Container close\n");
 };
-
 void AppContainer::update(int usrs, int objs) {
 	updateUsr(usrs);
 	updateObj(objs);
