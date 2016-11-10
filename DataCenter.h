@@ -14,11 +14,13 @@
 * DESCRIPTION: 
 */
 class DataCenter {
-private:
-	ResAllocator *resAllo;
-	vector<Server> serverlist;
 public:
 	DataCenter();
 	~DataCenter();
 	void run();
+
+private:
+	ResAllocator *resAllo;
+	vector<Server> serverlist;
+	vector<Server>::iterator currServer;
 };
