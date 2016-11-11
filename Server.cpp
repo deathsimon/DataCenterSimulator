@@ -27,7 +27,7 @@ void Server::getCurrUsage(double *uCore, unsigned int *uMemory, double *uBandwid
 }
 
 double Server::getScore(AppContainer * targetContainer){
-	// [TODO] return the estimated score for accepting target container
+	// TODO : return the estimated score for accepting target container
 	// -1.0 if cannot accomdate target container
 	return 0.0;
 }
@@ -43,7 +43,7 @@ void Server::update(){
 }
 
 void Server::distributeResource(){
-	// [TODO] distribute resources to the hosting containers
+	// TODO : distribute resources to the hosting containers
 	// update the current resource usage
 	for each (AppContainer* c in containers)	{
 

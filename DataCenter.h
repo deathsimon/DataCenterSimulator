@@ -5,6 +5,7 @@
 **********************************/
 
 #include "stdincludes.h"
+#include "Clients.h"
 #include "ResAllocator.h"
 #include "Server.h"
 
@@ -17,9 +18,11 @@ class DataCenter {
 public:
 	DataCenter();
 	~DataCenter();
+	void linkClient(Clients *cle);
 	void run();
 
 private:
+	Clients *clients;
 	ResAllocator *resAllo;
 	vector<Server> serverlist;
 	vector<Server>::iterator currServer;

@@ -3,6 +3,8 @@
 *
 * DESCRIPTION:
 **********************************/
+#ifndef CONTAINER_H_
+#define CONTAINER_H_
 
 #include "stdincludes.h"
 
@@ -10,6 +12,10 @@
 #define CONTAINER_CORE	4
 #define CONTAINER_MMRY	1024
 #define CONTAINER_BAND	256
+
+enum cntrState {
+	CNTR_SUSP, CNTR_ALIVE
+};
 
 /**
  * CLASS NAME: AppContainer
@@ -22,12 +28,16 @@ public:
 	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth);
 	~AppContainer();
 
+	void run();
 	void update(int usrs, int objs);
 	void updateUsr(int usrs);
 	void updateObj(int objs);
 
+	bool isAlive();
+
 	virtual void updateStatus() = 0;
 private:
+	int state;
 	/* Upper-bound of resources */
 	unsigned int bound_Core;
 	unsigned int bound_Memory;
@@ -50,3 +60,5 @@ class VRChatroom : public AppContainer {
 public:
 	void updateStatus();
 };
+
+#endif // !CONTAINER_H_

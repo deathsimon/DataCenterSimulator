@@ -14,6 +14,9 @@
 int main() {
 
 	DataCenter DC;
+	Clients client;
+
+	DC.linkClient(&client);
 
 	DC.run();
 
@@ -42,14 +45,32 @@ DataCenter::~DataCenter() {
 	serverlist.clear();
 }
 
+void DataCenter::linkClient(Clients * cle){
+	clients = cle;
+}
+
 void DataCenter::run() {
-	// [TODO] for each time period:
-	// First, update the requirement of each container
+	// TODO : for each time period
+
+	/* Update the requirement of each container */
+	clients->updateRequirement();
 	
-	// Then, update status of servers
+	/* Update status of servers */
+	for each (Server s in serverlist) {
+		s.update();
+	}
 
-	// Handle the newly created containers
+	/* Estimate the performance / penalty of each container */
+	clients->estimatePerf();
+	
+	/* Deploy the newly created container to server */
+	AppContainer* newContainer = NULL;
+	while ((newContainer = clients->getNewContainer()) != NULL) {		
+		// TODO : finish resAllo
+		// resAllo->
+	};
 
-	// Last, collect the performance and penalty from all containers
+	/* Remove the suspended containers from list */
+	clients->cleanSuspended();
 }
 
