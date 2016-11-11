@@ -1,11 +1,12 @@
 /**********************************
-* FILE NAME: Container.h
-*
-* DESCRIPTION:
-**********************************/
+ * FILE NAME: Container.h
+ *
+ * DESCRIPTION:
+ **********************************/
 #pragma once
 
 #include "stdincludes.h"
+#include "ContainerInput.h"
 
 // Marcos
 #define CONTAINER_CORE	4
@@ -27,16 +28,16 @@ public:
 	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth) : AppContainer(cores, memory, bandwidth, 0, 0) {};
 	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth, unsigned int usr, unsigned int obj);
 	~AppContainer();
-
-	void run();
+	
 	void update(unsigned int usrs, unsigned int objs);
 	void updateUsr(unsigned int usrs);
 	void updateObj(unsigned int objs);
 
 	bool isAlive();
 
+	virtual void run() = 0;
 	virtual void updateStatus() = 0;
-private:
+protected:
 	int state;
 	/* Upper-bound of resources */
 	unsigned int bound_Core;
@@ -57,10 +58,14 @@ private:
  * DESCRIPTION:
  */
 class VRChatroom : public AppContainer {
-public:
-	void updateStatus();
+public:	
+	void setupInputs();
+	virtual void run();
+	virtual void updateStatus();
 private:
 	void updateCPU();
 	void updateMem();
 	void updateBDW();
+
+	InputForVRChat *inputs = NULL;
 };

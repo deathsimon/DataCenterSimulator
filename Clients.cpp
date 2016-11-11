@@ -1,6 +1,15 @@
+/**********************************
+ * FILE NAME: Clients.cpp
+ *
+ * DESCRIPTION:
+ **********************************/
+
 #include "Clients.h"
 #include "Container.h"
 
+/**
+ * Constructor of the Clients class
+ */
 Clients::Clients(){
 	containers.clear();
 	newlyCreated.clear();
