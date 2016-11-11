@@ -1,12 +1,13 @@
 /**********************************
-* FILE NAME: stdincludes.h
-*
-* DESCRIPTION: standard header file
-**********************************/
+ * FILE NAME: stdincludes.h
+ *
+ * DESCRIPTION: standard header file
+ **********************************/
+#pragma once
 
 /*
-* Standard Header files
-*/
+ * Standard Header files
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

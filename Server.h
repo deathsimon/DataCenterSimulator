@@ -3,6 +3,7 @@
  *
  * DESCRIPTION:
  **********************************/
+#pragma once
 
 #include "stdincludes.h"
 #include "Container.h"

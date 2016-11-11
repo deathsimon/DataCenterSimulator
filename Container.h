@@ -3,8 +3,7 @@
 *
 * DESCRIPTION:
 **********************************/
-#ifndef CONTAINER_H_
-#define CONTAINER_H_
+#pragma once
 
 #include "stdincludes.h"
 
@@ -24,14 +23,15 @@ enum cntrState {
  */
 class AppContainer {
 public:
-	AppContainer() : AppContainer(CONTAINER_CORE, CONTAINER_MMRY, CONTAINER_BAND) {};
-	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth);
+	AppContainer() : AppContainer(CONTAINER_CORE, CONTAINER_MMRY, CONTAINER_BAND, 0, 0) {};
+	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth) : AppContainer(cores, memory, bandwidth, 0, 0) {};
+	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth, unsigned int usr, unsigned int obj);
 	~AppContainer();
 
 	void run();
-	void update(int usrs, int objs);
-	void updateUsr(int usrs);
-	void updateObj(int objs);
+	void update(unsigned int usrs, unsigned int objs);
+	void updateUsr(unsigned int usrs);
+	void updateObj(unsigned int objs);
 
 	bool isAlive();
 
@@ -48,7 +48,7 @@ private:
 	double usage_Bandwidth;
 	/* Number of users and objects in the container */
 	unsigned int _usrs;
-	unsigned int _objs;
+	unsigned int _objs;	
 };
 
 /**
@@ -59,6 +59,8 @@ private:
 class VRChatroom : public AppContainer {
 public:
 	void updateStatus();
+private:
+	void updateCPU();
+	void updateMem();
+	void updateBDW();
 };
-
-#endif // !CONTAINER_H_
