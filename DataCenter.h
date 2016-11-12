@@ -1,29 +1,27 @@
 /**********************************
-* FILE NAME: DataCenterSimulator.h
-*
-* DESCRIPTION: 
-**********************************/
+ * FILE NAME: DataCenter.h
+ *
+ * DESCRIPTION: 
+ **********************************/
 #pragma once
 
 #include "stdincludes.h"
-#include "Clients.h"
 #include "ResAllocator.h"
 #include "Server.h"
 
 /**
-* CLASS NAME: DataCenter
-*
-* DESCRIPTION: 
-*/
+ * CLASS NAME: DataCenter
+ *
+ * DESCRIPTION: 
+ */
 class DataCenter {
 public:
 	DataCenter();
 	~DataCenter();
-	void linkClient(Clients *cle);
-	void run();
+	void updateServerStatus();
+	bool newContainerRequest(AppContainer* newCntr);
 
 private:
-	Clients *clients;
 	ResAllocator *resAllo;
 	vector<Server> serverlist;
 	vector<Server>::iterator currServer;
