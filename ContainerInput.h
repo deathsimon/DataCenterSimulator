@@ -17,9 +17,13 @@ public:
 class InputForVRChat : public ContainerInput {
 public:
 	InputForVRChat();
-	virtual void setupInput();
-	virtual bool getNext(tuple<unsigned int, unsigned int>* nxtTuple);
+	InputForVRChat& operator = (InputForVRChat &anotherInput);		
 
-private:
+	bool getNext(tuple<unsigned int, unsigned int>* nxtTuple);
+
+	virtual void setupInput();
+	virtual bool getNext();
+
+private:	
 	deque<tuple<unsigned int, unsigned int>*> inputSeq;
 };

@@ -29,15 +29,20 @@ public:
 	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth, unsigned int usr, unsigned int obj);
 	~AppContainer();
 	
+	void setID(int);
+
 	void update(unsigned int usrs, unsigned int objs);
 	void updateUsr(unsigned int usrs);
 	void updateObj(unsigned int objs);
 
 	bool isAlive();
+	unsigned int getUpTime();
 
-	virtual void run() = 0;
+	virtual void updateRequirement() = 0;
 	virtual void updateStatus() = 0;
 protected:
+	int _id;
+	unsigned int upTime;
 	int state;
 	/* Upper-bound of resources */
 	unsigned int bound_Core;
@@ -59,8 +64,8 @@ protected:
  */
 class VRChatroom : public AppContainer {
 public:	
-	void setupInputs();
-	virtual void run();
+	void setupInputs(InputForVRChat *workloads);
+	virtual void updateRequirement();
 	virtual void updateStatus();
 private:
 	void updateCPU();
