@@ -17,7 +17,7 @@ class Clients {
 public:
 	Clients();
 	AppContainer* getNewContainer();
-	void updateRequirement();
+	void updateWorkload();
 	void estimatePerf();
 	void cleanSuspended();
 private:

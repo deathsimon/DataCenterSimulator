@@ -8,6 +8,7 @@
 #include "Clients.h"
 
 #define	SUCCESS	1
+#define SIMUTIME	1
 
 /**********************************
  * FUNCTION NAME: main
@@ -18,27 +19,28 @@ int main() {
 
 	DataCenter DC;
 	Clients client;
-
-	// TODO : for each time period
-
-	/* Update the requirement of each container */
-	client.updateRequirement();
-
-	/* Update status of servers */
-	DC.updateServerStatus();	
-
-	/* Estimate the performance / penalty of each container */
-	client.estimatePerf();
-
-	/* Deploy the newly created container to server */
-	AppContainer* newCntr = NULL;
-	while ((newCntr = client.getNewContainer()) != NULL) {		
-		DC.newContainerRequest(newCntr);
-	};
-
-	/* Remove the suspended containers from list */
-	client.cleanSuspended();
 	
+	// HACK : improvement required
+	for (int time = 0; time < SIMUTIME; time++) {
+		/* Update the workload of each container */
+		client.updateWorkload();
+
+		/* Estimate the performance / penalty of each container */
+		client.estimatePerf();
+
+		/* Update status of servers */
+		DC.updateServerStatus();
+
+		/* Deploy the newly created container to server */
+		AppContainer* newCntr = NULL;
+		while ((newCntr = client.getNewContainer()) != NULL) {
+			DC.newContainerRequest(newCntr);
+		};
+
+		/* Remove the suspended containers from list */
+		client.cleanSuspended();
+
+	}
 
 	return SUCCESS;
 }

@@ -32,16 +32,24 @@ void AppContainer::setID(int id){
 	_id = id;
 }
 /**
+ * FUNCTION NAME: assignResource
+ *
+ * DESCRIPTION: Amount of resources assigned by the hosting server
+ */
+void AppContainer::assignResource(tuple<unsigned int, unsigned int, unsigned int> resource){
+	std::tie(assigned_Core, assigned_Memory, assigned_Bandwidth) = resource;
+}
+/**
  * FUNCTION NAME: update
  *
  * DESCRIPTION: First, update the number of users and objects of the container.
- *				Then update the container status accordingly.
+ *				Then update the container's resource requirements accordingly.
  */
 void AppContainer::update(unsigned int usrs, unsigned int objs) {
 	updateUsr(usrs);
 	updateObj(objs);
 	
-	updateStatus();
+	updateRequirements();
 }
 /**
  * FUNCTION NAME: updateUsr
@@ -80,6 +88,14 @@ unsigned int AppContainer::getUpTime() {
 	return upTime;
 }
 /**
+ * FUNCTION NAME: getResourceUsage
+ *
+ * DESCRIPTION: return the current usage of each resource in tuple format
+ */
+void AppContainer::getResourceUsage(tuple<double, unsigned int, double>* resources) {
+	(*resources) = std::make_tuple(usage_Core, usage_Memory, usage_Bandwidth);
+}
+/**
  * FUNCTION NAME: setupInputs
  *
  * DESCRIPTION: Copy the input workload sequence from target workload.
@@ -90,11 +106,11 @@ void VRChatroom::setupInputs(InputForVRChat *workloads) {
 	*inputs = (*workloads);
 }
 /**
- * FUNCTION NAME: updateRequirement
+ * FUNCTION NAME: updateWorkload
  *
- * DESCRIPTION: Update the resource requirement of the container
+ * DESCRIPTION: Update the workload of the container
  */
-void VRChatroom::updateRequirement() {
+void VRChatroom::updateWorkload() {
 	tuple<unsigned int, unsigned int> next;
 	unsigned int newUsr;
 	unsigned int newObj;
@@ -113,14 +129,19 @@ void VRChatroom::updateRequirement() {
 	}
 }
 /**
- * FUNCTION NAME: updateStatus
+ * FUNCTION NAME: updateRequirements
  *
- * DESCRIPTION: Update the requirement of the three major resources according to current _usrs and _objs
+ * DESCRIPTION: Update the resource requirement of the container according to current _usrs and _objs
  */
-void VRChatroom::updateStatus() {	
+void VRChatroom::updateRequirements() {
 	updateCPU();
 	updateMem();
 	updateBDW();	
+}
+
+double VRChatroom::getPerformance() {
+	// TODO : calculate the performance / penalty according to the resource requirement and assigned
+	return 0.0;
 }
 
 void VRChatroom::updateCPU() {

@@ -26,17 +26,27 @@ AppContainer * Clients::getNewContainer() {
 	return cntr_ptr;
 }
 
-void Clients::updateRequirement(){
+
+/**
+ * FUNCTION NAME: updateWorkload
+ *
+ * DESCRIPTION: Update the workload of each container
+ */
+void Clients::updateWorkload(){
 	for each (AppContainer *c in containers)	{
-		c->run();
+		c->updateWorkload();
 	}
 }
-
-void Clients::estimatePerf() {
-	// estimate the performance / penalty of each container
+/**
+ * FUNCTION NAME: estimatePerf
+ *
+ * DESCRIPTION: Estimate the performance / penalty of each container
+ */
+void Clients::estimatePerf() {	
+	double peformance = 0.0;
 	for each (AppContainer* c in containers) {
-		// TODO : collect the perfomance. How?
-		// c->
+		peformance = c->getPerformance();
+		// TODO : what do to with the performance ?
 	}
 }
 
