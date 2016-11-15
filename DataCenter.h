@@ -18,7 +18,9 @@ class DataCenter {
 public:
 	DataCenter();
 	~DataCenter();
+	Server* bootServer();
 	void updateServerStatus();
+	void updateResourceDistribution();
 	bool newContainerRequest(AppContainer* newCntr);
 
 private:
