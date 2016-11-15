@@ -3,6 +3,5 @@
 
 class ResAllocator {
 public:
-	ResAllocator();
-	~ResAllocator();
+	ResAllocator();	
 };

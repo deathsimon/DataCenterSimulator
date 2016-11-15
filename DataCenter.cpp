@@ -28,6 +28,11 @@ DataCenter::~DataCenter() {
 	serverlist.clear();
 }
 
+/**
+ * FUNCTION NAME: updateServerStatus
+ *
+ * DESCRIPTION: Update the status of each server
+ */
 void DataCenter::updateServerStatus(){
 	for each (Server s in serverlist) {
 		s.update();
