@@ -12,14 +12,8 @@ Server::Server(unsigned int cores, unsigned int memory, unsigned int bandwidth) 
 	status = svr_idle;
 
 	containers.clear();
-}
-/**
- * Destructor
- */
-Server::~Server() {
-	containers.clear();
 
-	printf("Server shutdown\n");
+	printf("Server up\n");
 }
 
 void Server::getCurrUsage(double *uCore, unsigned int *uMemory, double *uBandwidth){

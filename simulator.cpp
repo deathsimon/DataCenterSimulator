@@ -37,6 +37,9 @@ int main() {
 			DC.newContainerRequest(newCntr);
 		};
 
+		/* Update the resource distribution of servers */
+		DC.updateResourceDistribution();
+
 		/* Remove the suspended containers from list */
 		client.cleanSuspended();
 

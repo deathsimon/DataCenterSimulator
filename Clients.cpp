@@ -16,17 +16,21 @@ Clients::Clients(){
 
 	// TODO : read and store the timestamp to create new container. How?
 }
-
+/**
+ * FUNCTION NAME: getNewContainer
+ *
+ * DESCRIPTION: return a newly created container from the list for deployment
+ *
+ * RETURN: pointer to the newly created container
+ */
 AppContainer * Clients::getNewContainer() {
-	AppContainer* cntr_ptr = NULL;
+	AppContainer* cntr_ptr = nullptr;
 	if (!newlyCreated.empty()) {
 		cntr_ptr = newlyCreated.back();
 		newlyCreated.pop_back();
 	}
 	return cntr_ptr;
 }
-
-
 /**
  * FUNCTION NAME: updateWorkload
  *
@@ -49,7 +53,11 @@ void Clients::estimatePerf() {
 		// TODO : what do to with the performance ?
 	}
 }
-
+/**
+ * FUNCTION NAME: cleanSuspended
+ *
+ * DESCRIPTION: Remove the suspended container from list
+ */
 void Clients::cleanSuspended(){
 	for (currContainer = containers.begin(); currContainer != containers.end();) {
 		if (!(*currContainer)->isAlive()) {

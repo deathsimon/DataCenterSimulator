@@ -29,7 +29,6 @@ class Server {
 public:	
 	Server() : Server(SERVER_CORE, SERVER_MMRY, SERVER_BAND) {};
 	Server(unsigned int cores, unsigned int memory, unsigned int bandwidth);	
-	~Server();	
 	/* fetch server information */
 	void getCurrUsage(double *uCore, unsigned int *uMemory, double *uBandwidth);
 	double getScore(AppContainer* targetContainer);

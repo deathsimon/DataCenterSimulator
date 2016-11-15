@@ -27,13 +27,18 @@ DataCenter::DataCenter(){
 DataCenter::~DataCenter() {
 	serverlist.clear();
 }
-
+/**
+ * FUNCTION NAME: bootServer
+ *
+ * DESCRIPTION: Create a new server and add to server list
+ *
+ * RETURN: address of the newly created server
+ */
 Server* DataCenter::bootServer() {
 	Server* newServer = new Server();
 	serverlist.push_back(*newServer);
 	return newServer;
 }
-
 /**
  * FUNCTION NAME: updateServerStatus
  *
