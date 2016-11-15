@@ -8,6 +8,8 @@ Server::Server(unsigned int cores, unsigned int memory, unsigned int bandwidth) 
 	total_Core = cores;
 	total_Memory = memory;
 	total_Bandwidth = bandwidth;
+	/* Set status */
+	status = svr_idle;
 
 	containers.clear();
 }
@@ -44,13 +46,55 @@ void Server::deployContainer(AppContainer * targetContainer){
 	distributeResource();
 }
 /**
- * FUNCTION NAME: update
+ * FUNCTION NAME: updateUsage
  *
- * DESCRIPTION: Update this server
+ * DESCRIPTION: Update the resource usage of this server
  */
-void Server::update(){
-	distributeResource();
+void Server::updateUsage(){
+	usage_Core = 0.0;
+	usage_Memory = 0;
+	usage_Bandwidth = 0.0;
+
+	/* Get the actual resource usage of each container */
+	tuple<double, unsigned int, double> resources;
+	for each (AppContainer* c in containers) {
+		c->getResourceUsage(&resources);		
+		usage_Core += std::get<hw_Core>(resources);
+		usage_Memory += std::get<hw_Memory>(resources);
+		usage_Bandwidth += std::get<hw_Bandwidth>(resources);
+	}
+
+	updateStatus();
 }
+/**
+ * FUNCTION NAME: getStatus
+ *
+ * DESCRIPTION: Return the current status of this server
+ *
+ * RETURN: status
+ */
+int Server::getStatus() {
+	return status;
+}
+/**
+ * FUNCTION NAME: updateStatus
+ *
+ * DESCRIPTION: Change the status according to the current resource usage
+ */
+void Server::updateStatus() {
+	if (containers.empty()) {
+		status = svr_idle;
+	}
+	else if (usage_Core > total_Core 
+		|| usage_Memory > total_Memory 
+		|| usage_Bandwidth > total_Bandwidth) {
+		status = svr_overload;
+	}
+	else {
+		status = svr_normal;
+	}
+}
+
 /**
  * FUNCTION NAME: distributeResource
  *
