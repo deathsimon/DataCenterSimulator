@@ -17,16 +17,19 @@
   */
 class Clients {
 public:	
-	Clients(string filepath);
+	Clients(string tracePath, string seqFileName);
+	bool hasNewContainerRequest(unsigned int time);
 	AppContainer* getNewContainer();
 	void updateWorkload();
 	void estimatePerf();
 	void cleanSuspended();
 private:
-	void readWorkloads(string dir);
+	void readTraces(string dir);
+	void readSequence(string filename);
 	vector<AppContainer*> containers;
 	vector<AppContainer*>::iterator currContainer;
 	vector<AppContainer*> newlyCreated;
 
-	vector<ContainerInput*> workloads;
+	vector<InputForVRChat*> traces;
+	deque<tuple<unsigned int, vector<unsigned int>*>*> sequence;
 };

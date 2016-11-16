@@ -34,7 +34,7 @@ void InputForVRChat::setupInput(string filename){
 	tuple<unsigned int, unsigned int> *workload;
 
 	/* read workloads from file */
-	ifstream infile(filename.c_str());
+	ifstream infile(filename.c_str(),ios::in);
 	infile >> numData;
 	while (numData) {
 		infile >> usr >> obj;
@@ -42,6 +42,7 @@ void InputForVRChat::setupInput(string filename){
 		inputSeq.push_back(workload);
 		numData--;
 	};
+	infile.close();
 }
 /**
  * FUNCTION NAME: getNext

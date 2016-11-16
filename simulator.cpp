@@ -9,7 +9,7 @@
 
 #define	SUCCESS	0
 #define FAILURE	-1
-#define SIMUTIME	1
+#define SIMUTIME	2
 
 /**********************************
  * FUNCTION NAME: main
@@ -18,16 +18,16 @@
  **********************************/
 int main(int argc, char* argv[]) {
 
-	if (argc < 2) {
-		fprintf(stderr, "Workload directory required\n");
+	if (argc < 3) {
+		fprintf(stderr, "Not enough arguments\n");
 		return FAILURE;
 	}
 	
 	DataCenter DC;
-	Clients client(argv[1]);
+	Clients client(argv[1], argv[2]);
 		
 	// HACK : improvement required
-	for (int time = 0; time < SIMUTIME; time++) {
+	for (int time = 1; time < SIMUTIME; time++) {
 		/* Update the workload of each container */
 		client.updateWorkload();
 
@@ -37,11 +37,14 @@ int main(int argc, char* argv[]) {
 		/* Update status of servers */
 		DC.updateServerStatus();
 
-		/* Deploy the newly created container to server */
-		AppContainer* newCntr = NULL;
-		while ((newCntr = client.getNewContainer()) != NULL) {
-			DC.newContainerRequest(newCntr);
-		};
+		/* Check if there are new container requests */
+		if (client.hasNewContainerRequest(time)) {
+			/* Deploy the newly created container to server */
+			AppContainer* newCntr = nullptr;
+			while ((newCntr = client.getNewContainer()) != nullptr) {
+				DC.newContainerRequest(newCntr);
+			};
+		}
 
 		/* Update the resource distribution of servers */
 		DC.updateResourceDistribution();
@@ -52,4 +55,4 @@ int main(int argc, char* argv[]) {
 	}
 
 	return SUCCESS;
-}
+ }

@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <queue>
 #include <fstream>
+#include <sstream>
 #include <tuple>
 
 using namespace std;

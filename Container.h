@@ -71,6 +71,7 @@ protected:
  */
 class VRChatroom : public AppContainer {
 public:	
+	VRChatroom() {};
 	void setupInputs(InputForVRChat *workloads);
 	virtual void updateWorkload();
 	virtual void updateRequirements();

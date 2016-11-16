@@ -10,15 +10,38 @@
 /**
  * Constructor of the Clients class
  */
-Clients::Clients(string filepath){
+Clients::Clients(string tracePath, string seqFileName){
 	containers.clear();
 	newlyCreated.clear();
-	workloads.clear();
+	traces.clear();
+	sequence.clear();
 	
-	readWorkloads(filepath);
-	// TODO : read and store the timestamp to create new container. How?
+	readTraces(tracePath);	
+	readSequence(seqFileName);
 }
-
+/**
+ * FUNCTION NAME: hasNewContainerRequest
+ *
+ * DESCRIPTION: Check if there are container requests at time t.
+ *				If so, create containers and put into newlyCreated.
+ *
+ * RETURN: True if there are creation requests; else, false.
+ */
+bool Clients::hasNewContainerRequest(unsigned int time){
+	if (get<0>(*sequence.front()) != time) {
+		return false;
+	}
+	tuple<unsigned int, vector<unsigned int>*>* currTuple = sequence.front();
+	sequence.pop_front();
+	vector<unsigned int>* inputTrace = get<1>(*currTuple);
+	VRChatroom *newContainer;
+	for each (unsigned int t in *inputTrace) {
+		newContainer = new VRChatroom();
+		newContainer->setupInputs(traces[t]);
+		newlyCreated.push_back(newContainer);
+	}
+	return true;
+}
 /**
  * FUNCTION NAME: getNewContainer
  *
@@ -71,11 +94,11 @@ void Clients::cleanSuspended(){
 	}
 }
 /**
- * FUNCTION NAME: readWorkloads
+ * FUNCTION NAME: readTraces
  *
- * DESCRIPTION: Read and construct the workloads from target directory
+ * DESCRIPTION: Read and construct the workload traces from target directory
  */
-void Clients::readWorkloads(string dir) {
+void Clients::readTraces(string dir) {
 	// HACK : should parse all files in the directory
 	string file_path = dir + "trace";
 	string file_name;
@@ -87,6 +110,31 @@ void Clients::readWorkloads(string dir) {
 		/* for every file, create an instance and constuct inputs*/
 		inputTrace = new InputForVRChat();
 		inputTrace->setupInput(file_name);
-		workloads.push_back(inputTrace);	
+		traces.push_back(inputTrace);
 	}
+}
+
+void Clients::readSequence(string filename){	
+	unsigned int timestamp;
+	
+	vector<unsigned int>* t;
+	tuple<unsigned int, vector<unsigned int>*>* workload;
+
+	/* read workloads from file */
+	ifstream infile(filename.c_str(), ios::in);
+	string line;
+	unsigned int w;
+	while (getline(infile, line)) {
+		t = new vector<unsigned int>();
+			
+		std::istringstream iss (line);
+		iss >> timestamp;
+		while (iss >> w){
+			t->push_back(w);
+		};		
+		workload = new tuple<unsigned int, vector<unsigned int>*>(timestamp, t);
+		sequence.push_back(workload);
+		
+	};
+	infile.close();
 }
