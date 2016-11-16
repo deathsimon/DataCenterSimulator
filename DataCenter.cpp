@@ -35,7 +35,7 @@ DataCenter::~DataCenter() {
  * RETURN: address of the newly created server
  */
 Server* DataCenter::bootServer() {
-	Server* newServer = new Server();
+	Server* newServer = new Server;
 	serverlist.push_back(*newServer);
 	return newServer;
 }
@@ -68,7 +68,9 @@ bool DataCenter::newContainerRequest(AppContainer * newCntr) {
 	Server *targetServer = resAllo->scheduleTo(newCntr);
 	if(targetServer == nullptr){
 		/* boot a new server */
-		targetServer = bootServer();
+		bootServer();
+		// HACK : not sure why "targetServer = bootServer();" does not work...
+		targetServer = &serverlist.back();
 	}
 	targetServer->deployContainer(newCntr);
 	targetServer->updateUsage();

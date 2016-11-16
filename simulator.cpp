@@ -9,7 +9,7 @@
 
 #define	SUCCESS	0
 #define FAILURE	-1
-#define SIMUTIME	2
+#define SIMUTIME	4
 
 /**********************************
  * FUNCTION NAME: main

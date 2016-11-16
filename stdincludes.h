@@ -21,5 +21,6 @@
 #include <fstream>
 #include <sstream>
 #include <tuple>
+#include <memory>
 
 using namespace std;
