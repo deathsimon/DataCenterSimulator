@@ -10,7 +10,7 @@
 class ContainerInput {
 public:
 	ContainerInput() {};
-	virtual void setupInput() = 0;
+	virtual void setupInput(string filename) = 0;
 	virtual bool getNext() = 0;
 };
 
@@ -21,7 +21,7 @@ public:
 
 	bool getNext(tuple<unsigned int, unsigned int>* nxtTuple);
 
-	virtual void setupInput();
+	virtual void setupInput(string filename);
 	virtual bool getNext();
 
 private:	

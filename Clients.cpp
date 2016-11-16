@@ -10,12 +10,15 @@
 /**
  * Constructor of the Clients class
  */
-Clients::Clients(){
+Clients::Clients(string filepath){
 	containers.clear();
 	newlyCreated.clear();
-
+	workloads.clear();
+	
+	readWorkloads(filepath);
 	// TODO : read and store the timestamp to create new container. How?
 }
+
 /**
  * FUNCTION NAME: getNewContainer
  *
@@ -65,5 +68,25 @@ void Clients::cleanSuspended(){
 			continue;
 		}
 		currContainer++;		
+	}
+}
+/**
+ * FUNCTION NAME: readWorkloads
+ *
+ * DESCRIPTION: Read and construct the workloads from target directory
+ */
+void Clients::readWorkloads(string dir) {
+	// HACK : should parse all files in the directory
+	string file_path = dir + "trace";
+	string file_name;
+	
+	InputForVRChat *inputTrace;
+	
+	for (int num = 1; num <= NUMTRACE; num++) {
+		file_name = file_path + to_string(num);
+		/* for every file, create an instance and constuct inputs*/
+		inputTrace = new InputForVRChat();
+		inputTrace->setupInput(file_name);
+		workloads.push_back(inputTrace);	
 	}
 }

@@ -7,7 +7,8 @@
 #include "DataCenter.h"
 #include "Clients.h"
 
-#define	SUCCESS	1
+#define	SUCCESS	0
+#define FAILURE	-1
 #define SIMUTIME	1
 
 /**********************************
@@ -15,11 +16,16 @@
  *
  * DESCRIPTION: main function. Start from here
  **********************************/
-int main() {
+int main(int argc, char* argv[]) {
 
-	DataCenter DC;
-	Clients client;
+	if (argc < 2) {
+		fprintf(stderr, "Workload directory required\n");
+		return FAILURE;
+	}
 	
+	DataCenter DC;
+	Clients client(argv[1]);
+		
 	// HACK : improvement required
 	for (int time = 0; time < SIMUTIME; time++) {
 		/* Update the workload of each container */
