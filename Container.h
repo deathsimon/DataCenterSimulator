@@ -24,26 +24,24 @@ enum cntrState {
  */
 class AppContainer {
 public:
-	AppContainer() : AppContainer(CONTAINER_CORE, CONTAINER_MMRY, CONTAINER_BAND, 0, 0) {};
-	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth) : AppContainer(cores, memory, bandwidth, 0, 0) {};
-	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth, unsigned int usr, unsigned int obj);
+	AppContainer() : AppContainer(CONTAINER_CORE, CONTAINER_MMRY, CONTAINER_BAND) {};	
+	AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth);
 	~AppContainer();
-	
+	/* set properties */
 	void setID(int);
-	void assignResource(tuple<unsigned int, unsigned int, unsigned int> resource);
-
-	void update(unsigned int usrs, unsigned int objs);
-	void updateUsr(unsigned int usrs);
-	void updateObj(unsigned int objs);
-
+	/* get properties */
+	int getID();
 	bool isAlive();
 	unsigned int getUpTime();
+	/* Resource related methods */
+	void assignResource(tuple<unsigned int, unsigned int, unsigned int> resource);
 	void getResourceUsage(tuple<double, unsigned int, double>* resources);	
-
+	
 	virtual void updateWorkload() = 0;
-	virtual void updateRequirements() = 0;
 	virtual double getPerformance() = 0;
 protected:
+	virtual void updateRequirements() = 0;
+
 	int _id;
 	unsigned int upTime;
 	int state;
@@ -71,12 +69,21 @@ protected:
  */
 class VRChatroom : public AppContainer {
 public:	
-	VRChatroom() {};
+	VRChatroom() : VRChatroom(0, 0) {};
+	VRChatroom(unsigned int usr, unsigned int obj);
+
 	void setupInputs(InputForVRChat *workloads);
-	virtual void updateWorkload();
-	virtual void updateRequirements();
+
+	virtual void updateWorkload();	
 	virtual double getPerformance();
 private:
+	/* workload update related */
+	void update(unsigned int usrs, unsigned int objs);
+	void updateUsr(unsigned int usrs);
+	void updateObj(unsigned int objs);
+
+	virtual void updateRequirements();
+
 	void updateCPU();
 	void updateMem();
 	void updateBDW();

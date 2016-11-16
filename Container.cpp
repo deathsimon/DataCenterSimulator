@@ -7,15 +7,13 @@
 #include "Container.h"
 
 /**
- * Constructor of the AppContainer class
+ * Constructor of class AppContainer
  */
-AppContainer::AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth, unsigned int usr, unsigned int obj) {
+AppContainer::AppContainer(unsigned int cores, unsigned int memory, unsigned int bandwidth) {
 	/* Set the upper-bounds */
 	bound_Core = cores;
 	bound_Memory = memory;
-	bound_Bandwidth = bandwidth;
-	/* Set the number of users and objects */
-	update(usr, obj);
+	bound_Bandwidth = bandwidth;	
 	/* set the status */
 	state = CNTR_ALIVE;
 	_id = -1;
@@ -24,48 +22,15 @@ AppContainer::~AppContainer(){
 	printf("Container id %d is closing after up for %ud seconds.\n", _id, upTime);
 }
 /**
- * FUNCTION NAME: setID
+ * FUNCTION NAME: setID, getID
  *
- * DESCRIPTION: Set the id of the container
+ * DESCRIPTION: Set / Get the id of the container
  */
 void AppContainer::setID(int id){
 	_id = id;
 }
-/**
- * FUNCTION NAME: assignResource
- *
- * DESCRIPTION: Amount of resources assigned by the hosting server
- */
-void AppContainer::assignResource(tuple<unsigned int, unsigned int, unsigned int> resource){
-	std::tie(assigned_Core, assigned_Memory, assigned_Bandwidth) = resource;
-}
-/**
- * FUNCTION NAME: update
- *
- * DESCRIPTION: First, update the number of users and objects of the container.
- *				Then update the container's resource requirements accordingly.
- */
-void AppContainer::update(unsigned int usrs, unsigned int objs) {
-	updateUsr(usrs);
-	updateObj(objs);
-	
-	updateRequirements();
-}
-/**
- * FUNCTION NAME: updateUsr
- *
- * DESCRIPTION: Update the number of user of the container
- */
-void AppContainer::updateUsr(unsigned int usrs) {
-	_usrs = usrs;
-}
-/**
- * FUNCTION NAME: updateObj
- *
- * DESCRIPTION: Update the number of objects of the container
- */
-void AppContainer::updateObj(unsigned int objs) {
-	_objs = objs;
+int AppContainer::getID() {
+	return _id;
 }
 /**
  * FUNCTION NAME: isAlive
@@ -88,12 +53,27 @@ unsigned int AppContainer::getUpTime() {
 	return upTime;
 }
 /**
+ * FUNCTION NAME: assignResource
+ *
+ * DESCRIPTION: Amount of resources assigned by the hosting server
+ */
+void AppContainer::assignResource(tuple<unsigned int, unsigned int, unsigned int> resource) {
+	std::tie(assigned_Core, assigned_Memory, assigned_Bandwidth) = resource;
+}
+/**
  * FUNCTION NAME: getResourceUsage
  *
  * DESCRIPTION: return the current usage of each resource in tuple format
  */
 void AppContainer::getResourceUsage(tuple<double, unsigned int, double>* resources) {
 	(*resources) = std::make_tuple(usage_Core, usage_Memory, usage_Bandwidth);
+}
+/**
+ * Constructor of class VRChatroom
+ */
+VRChatroom::VRChatroom(unsigned int usr, unsigned int obj) {
+	/* Set the number of users and objects */
+	update(usr, obj);
 }
 /**
  * FUNCTION NAME: setupInputs
@@ -125,8 +105,42 @@ void VRChatroom::updateWorkload() {
 	else {
 		/* no more inputs, suspend the container */
 		update(0, 0);
-		state = CNTR_SUSP;	
+		state = CNTR_SUSP;
 	}
+}
+/**
+ * FUNCTION NAME: getPerformance
+ *
+ * DESCRIPTION: 
+ *
+ * RETURN: performance score
+ */
+double VRChatroom::getPerformance() {
+	// TODO : calculate the performance / penalty according to the resource requirement and assigned
+	return 0.0;
+}
+/**
+ * FUNCTION NAME: update
+ *
+ * DESCRIPTION: First, update the number of users and objects of the container.
+ *				Then update the container's resource requirements accordingly.
+ */
+void VRChatroom::update(unsigned int usrs, unsigned int objs) {
+	updateUsr(usrs);
+	updateObj(objs);
+
+	updateRequirements();
+}
+/**
+ * FUNCTION NAME: updateUsr, UpdateObj
+ *
+ * DESCRIPTION: Update the number of user / objects of the container
+ */
+void VRChatroom::updateUsr(unsigned int usrs) {
+	_usrs = usrs;
+}
+void VRChatroom::updateObj(unsigned int objs) {
+	_objs = objs;
 }
 /**
  * FUNCTION NAME: updateRequirements
@@ -138,22 +152,14 @@ void VRChatroom::updateRequirements() {
 	updateMem();
 	updateBDW();	
 }
-
-double VRChatroom::getPerformance() {
-	// TODO : calculate the performance / penalty according to the resource requirement and assigned
-	return 0.0;
-}
-
 void VRChatroom::updateCPU() {
 	// TODO
 	// usage_Core = ;
 }
-
 void VRChatroom::updateMem() {
 	// TODO
 	// usage_Memory = ;
 }
-
 void VRChatroom::updateBDW() {
 	// TODO
 	// usage_Bandwidth = ;
