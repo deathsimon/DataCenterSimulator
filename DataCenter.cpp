@@ -15,7 +15,7 @@ DataCenter::DataCenter(){
 
 	/* initialize server list */
 	serverlist.clear();
-	Server firstServer;
+	Server* firstServer = new Server();
 	serverlist.push_back(firstServer);
 
 	printf("Hello World!\n");
@@ -36,7 +36,7 @@ DataCenter::~DataCenter() {
  */
 Server* DataCenter::bootServer() {
 	Server* newServer = new Server;
-	serverlist.push_back(*newServer);
+	serverlist.push_back(newServer);
 	return newServer;
 }
 /**
@@ -45,8 +45,8 @@ Server* DataCenter::bootServer() {
  * DESCRIPTION: Update the resource usage of each server
  */
 void DataCenter::updateServerStatus(){
-	for each (Server s in serverlist) {
-		s.updateUsage();
+	for each (Server *s in serverlist) {
+		s->updateUsage();
 	}
 }
 /**
@@ -55,8 +55,8 @@ void DataCenter::updateServerStatus(){
  * DESCRIPTION: Ask servers to redistibute their resources to containers
  */
 void DataCenter::updateResourceDistribution() {
-	for each (Server s in serverlist) {
-		s.distributeResource();
+	for each (Server* s in serverlist) {
+		s->distributeResource();
 	}
 }
 /**
@@ -68,11 +68,9 @@ bool DataCenter::newContainerRequest(AppContainer * newCntr) {
 	Server *targetServer = resAllo->scheduleTo(newCntr);
 	if(targetServer == nullptr){
 		/* boot a new server */
-		bootServer();
-		// HACK : not sure why "targetServer = bootServer();" does not work...
-		targetServer = &serverlist.back();
+		targetServer = bootServer();		
 	}
-	targetServer->deployContainer(newCntr);
+	targetServer->deployContainer(newCntr);	
 	targetServer->updateUsage();
 	return false;
 }

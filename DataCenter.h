@@ -25,6 +25,6 @@ public:
 
 private:
 	ResAllocator *resAllo;
-	vector<Server> serverlist;
-	vector<Server>::iterator currServer;
+	vector<Server*> serverlist;
+	vector<Server*>::iterator currServer;
 };

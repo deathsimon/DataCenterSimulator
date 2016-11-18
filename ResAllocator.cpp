@@ -1,6 +1,6 @@
 #include "ResAllocator.h"
 
-ResAllocator::ResAllocator(vector<Server> *serverList) {
+ResAllocator::ResAllocator(vector<Server*> *serverList) {
 	svrList = serverList;
 }
 

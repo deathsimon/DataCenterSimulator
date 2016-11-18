@@ -5,8 +5,8 @@
 
 class ResAllocator {
 public:
-	ResAllocator(vector<Server> *serverList);
+	ResAllocator(vector<Server*> *serverList);
 	Server* scheduleTo(AppContainer* targetContainer);
 private:
-	vector<Server> *svrList;
+	vector<Server*> *svrList;
 };
