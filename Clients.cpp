@@ -54,7 +54,8 @@ AppContainer * Clients::getNewContainer() {
 	if (!newlyCreated.empty()) {
 		cntr_ptr = newlyCreated.back();
 		newlyCreated.pop_back();
-	}
+		containers.push_back(cntr_ptr);
+	}	
 	return cntr_ptr;
 }
 /**
@@ -105,7 +106,7 @@ void Clients::readTraces(string dir) {
 	
 	InputForVRChat *inputTrace;
 	
-	for (int num = 1; num <= NUMTRACE; num++) {
+	for (int num = 0; num < NUMTRACE; num++) {
 		file_name = file_path + to_string(num);
 		/* for every file, create an instance and constuct inputs*/
 		inputTrace = new InputForVRChat();
