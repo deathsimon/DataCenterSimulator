@@ -19,7 +19,7 @@ public:
 	InputForVRChat();
 	InputForVRChat& operator = (InputForVRChat &anotherInput);		
 
-	bool getNext(tuple<unsigned int, unsigned int>* nxtTuple);
+	bool getNext(tuple<unsigned int, unsigned int> &nxtTuple);
 
 	virtual void setupInput(string filename);
 	virtual bool getNext();

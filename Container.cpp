@@ -65,15 +65,15 @@ void AppContainer::assignResource(tuple<unsigned int, unsigned int, unsigned int
  *
  * DESCRIPTION: return the amount of resource assigned in tuple format
  */
-void AppContainer::getResourceAssigned(tuple<unsigned int, unsigned int, unsigned int>* resources) {
-	(*resources) = std::make_tuple(assigned_Core, assigned_Memory, assigned_Bandwidth);
+void AppContainer::getResourceAssigned(tuple<unsigned int, unsigned int, unsigned int> &resources) {
+	resources = std::make_tuple(assigned_Core, assigned_Memory, assigned_Bandwidth);
 }
 /**
  * FUNCTION NAME: getResourceUsage
  *
  * DESCRIPTION: return the current usage of each resource in tuple format
  */
-void AppContainer::getResourceRequirement(tuple<unsigned int, unsigned int, unsigned>* resources) {
+void AppContainer::getResourceRequirement(tuple<unsigned int, unsigned int, unsigned> &resources) {
 	//(*resources) = std::make_tuple(usage_Core, usage_Memory, usage_Bandwidth);
 }
 /**
@@ -107,7 +107,7 @@ void VRChatroom::updateWorkload() {
 	unsigned int newUsr;
 	unsigned int newObj;
 	/* fetch information from eventHandler */
-	if (inputs->getNext(&next)) {
+	if (inputs->getNext(next)) {
 		/* get the number of user and objests from the tuple */
 		std::tie(newUsr, newObj) = next;
 		update(newUsr, newObj);

@@ -39,8 +39,8 @@ public:
 	unsigned int getUpTime();
 	/* Resource related methods */
 	void assignResource(tuple<unsigned int, unsigned int, unsigned int> resource);
-	void getResourceAssigned(tuple<unsigned int, unsigned int, unsigned int>* resources);
-	void getResourceRequirement(tuple<unsigned int, unsigned int, unsigned int>* resources);
+	void getResourceAssigned(tuple<unsigned int, unsigned int, unsigned int> &resources);
+	void getResourceRequirement(tuple<unsigned int, unsigned int, unsigned int> &resources);
 	
 	virtual void updateWorkload() = 0;
 	virtual double getPerformance() = 0;

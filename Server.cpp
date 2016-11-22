@@ -56,7 +56,7 @@ void Server::updateUsage(){
 	/* Get the resource assigned to each container */
 	tuple<unsigned int, unsigned int, unsigned int> resources;
 	for each (AppContainer* c in containers) {
-		c->getResourceAssigned(&resources);
+		c->getResourceAssigned(resources);
 		assigned_Core += std::get<hw_Core>(resources);
 		assigned_Memory += std::get<hw_Memory>(resources);
 		assigned_Bandwidth += std::get<hw_Bandwidth>(resources);
@@ -105,7 +105,7 @@ void Server::distributeResource(){
 	/* First, get the resource requirement of each container */
 	tuple<unsigned int, unsigned int, unsigned int> req_resources;
 	for each (AppContainer* c in containers)	{
-		c->getResourceRequirement(&req_resources);
+		c->getResourceRequirement(req_resources);
 		std::tie(require_Core, require_Memory, require_BandWidth) = req_resources;
 		// TODO :
 	}

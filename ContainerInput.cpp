@@ -54,12 +54,12 @@ void InputForVRChat::setupInput(string filename){
  */
 bool InputForVRChat::getNext() {
 	tuple<unsigned int, unsigned int> next;
-	return getNext(&next);
+	return getNext(next);
 }
-bool InputForVRChat::getNext(tuple<unsigned int, unsigned int>* nxtTuple){
+bool InputForVRChat::getNext(tuple<unsigned int, unsigned int> &nxtTuple){
 	bool hasNext = false;
 	if (!inputSeq.empty()) {
-		nxtTuple = inputSeq.front();
+		nxtTuple = *inputSeq.front();
 		inputSeq.pop_front();
 		hasNext = true;
 	}
