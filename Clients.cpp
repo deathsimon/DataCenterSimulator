@@ -28,7 +28,8 @@ Clients::Clients(string tracePath, string seqFileName){
  * RETURN: True if there are creation requests; else, false.
  */
 bool Clients::hasNewContainerRequest(unsigned int time){
-	if (get<0>(*sequence.front()) != time) {
+	if (sequence.empty() || 
+		get<0>(*sequence.front()) != time) {
 		return false;
 	}
 	tuple<unsigned int, vector<unsigned int>*>* currTuple = sequence.front();
@@ -75,10 +76,11 @@ void Clients::updateWorkload(){
  * DESCRIPTION: Estimate the performance / penalty of each container
  */
 void Clients::estimatePerf() {	
-	double peformance = 0.0;
+	double performance = 0.0;
 	for each (AppContainer* c in containers) {
-		peformance = c->getPerformance();
-		// TODO : what do to with the performance ?
+		performance = c->getPerformance();
+		// HACK : print the penalty
+		fprintf(stdout, "container %d has penalty %.2lf\n", c->getID(), performance);		
 	}
 }
 /**
@@ -87,9 +89,12 @@ void Clients::estimatePerf() {
  * DESCRIPTION: Remove the suspended container from list
  */
 void Clients::cleanSuspended(){
+	AppContainer *delContainer;
 	for (currContainer = containers.begin(); currContainer != containers.end();) {
 		if (!(*currContainer)->isAlive()) {
+			delContainer = (*currContainer);
 			currContainer = containers.erase(currContainer);
+			delete(delContainer);
 			continue;
 		}
 		currContainer++;		

@@ -79,6 +79,7 @@ class VRChatroom : public AppContainer {
 public:	
 	VRChatroom() : VRChatroom(0, 0) {};
 	VRChatroom(unsigned int usr, unsigned int obj);
+	~VRChatroom() {};
 
 	void setupInputs(InputForVRChat *workloads);
 

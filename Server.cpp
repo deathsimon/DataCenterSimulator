@@ -29,6 +29,27 @@ void Server::getCurrUsage(double &uCore, double &uMemory, double &uBandwidth){
 	if (uBandwidth > 1.0) { uBandwidth = 1.0; }
 }
 /**
+ * FUNCTION NAME: getResourceRemain
+ *
+ * DESCRIPTION: Get the amount of the remaining resources on the server
+ *
+ * RETURN: True if all the resources have remaining; else, False.
+ */
+bool Server::getResourceRemain(tuple<unsigned int, unsigned int, unsigned>& rem_resource){
+	unsigned int rem_core = 0;
+	unsigned int rem_memory = 0;
+	unsigned int rem_bandwidth = 0;
+	bool hasRemaining = true;
+
+	(requested_Core < total_Core) ? (rem_core = total_Core - requested_Core) : (hasRemaining &= false);
+	(requested_Memory < total_Memory) ? (rem_memory = total_Memory - requested_Memory) : (hasRemaining &= false);
+	(requested_Bandwidth < total_Bandwidth) ? (rem_bandwidth = total_Bandwidth - requested_Bandwidth) : (hasRemaining &= false);
+
+	rem_resource = std::make_tuple(rem_core, rem_memory, rem_bandwidth);
+
+	return hasRemaining;
+}
+/**
  * FUNCTION NAME: deployContainer
  *
  * DESCRIPTION: Add target container to the list. 
@@ -55,10 +76,10 @@ void Server::updateUsage(){
 	requested_Memory = 0;
 	requested_Bandwidth = 0;
 
-	/* Get the resource assigned to each container */
+	/* Get the resource requested by the containers */
 	tuple<unsigned int, unsigned int, unsigned int> resources;
 	for each (AppContainer* c in containers) {
-		c->getResourceAssigned(resources);
+		c->getResourceRequirement(resources);
 		requested_Core += get<hw_Core>(resources);
 		requested_Memory += get<hw_Memory>(resources);
 		requested_Bandwidth += get<hw_Bandwidth>(resources);
@@ -114,9 +135,9 @@ void Server::distributeResource(){
 	tuple<unsigned int, unsigned int, unsigned int> req_resources;
 	for each (AppContainer* c in containers) {		
 		c->getResourceRequirement(req_resources);
-		assignCore = round(get<hw_Core>(req_resources) * (used_Core / requested_Core));
-		assignMemory = round(get<hw_Memory>(req_resources) * (used_Memory / requested_Memory));
-		assignBandWidth = round(get<hw_Bandwidth>(req_resources) * (used_Bandwidth / requested_Bandwidth));
+		assignCore = (unsigned int)lround(get<hw_Core>(req_resources) * (used_Core / requested_Core));
+		assignMemory = (unsigned int)lround(get<hw_Memory>(req_resources) * (used_Memory / requested_Memory));
+		assignBandWidth = (unsigned int)lround(get<hw_Bandwidth>(req_resources) * (used_Bandwidth / requested_Bandwidth));
 
 		tuple<unsigned int, unsigned int, unsigned int> assignedResources = std::make_tuple(assignCore, assignMemory, assignBandWidth);
 		c->assignResource(assignedResources);

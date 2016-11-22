@@ -19,7 +19,7 @@ AppContainer::AppContainer(unsigned int cores, unsigned int memory, unsigned int
 	_id = -1;
 }
 AppContainer::~AppContainer(){
-	printf("Container id %d is closing after up for %ud seconds.\n", _id, upTime);
+	printf("Container id %d is closing after up for %d seconds.\n", _id, upTime);
 }
 /**
  * FUNCTION NAME: setID, getID
@@ -69,9 +69,9 @@ void AppContainer::getResourceAssigned(tuple<unsigned int, unsigned int, unsigne
 	resources = std::make_tuple(assigned_Core, assigned_Memory, assigned_Bandwidth);
 }
 /**
- * FUNCTION NAME: getResourceUsage
+ * FUNCTION NAME: getResourceRequirement
  *
- * DESCRIPTION: return the current usage of each resource in tuple format
+ * DESCRIPTION: return the current requirement of each resource in tuple format
  */
 void AppContainer::getResourceRequirement(tuple<unsigned int, unsigned int, unsigned> &resources) {
 	resources = std::make_tuple(require_Core, require_Memory, require_BandWidth);

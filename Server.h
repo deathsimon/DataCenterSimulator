@@ -30,7 +30,8 @@ public:
 	Server() : Server(SERVER_CORE, SERVER_MMRY, SERVER_BAND) {};
 	Server(unsigned int cores, unsigned int memory, unsigned int bandwidth);	
 	/* fetch server information */
-	void getCurrUsage(double &uCore, double &uMemory, double &uBandwidth);	
+	void getCurrUsage(double &uCore, double &uMemory, double &uBandwidth);
+	bool getResourceRemain(tuple<unsigned int, unsigned int, unsigned> &rem_resource);
 	int getStatus();
 	/* assign target container to the server */
 	void deployContainer(AppContainer* targetContainer);
