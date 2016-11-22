@@ -181,8 +181,21 @@ void VRChatroom::updateCPU() {
 	}
 }
 void VRChatroom::updateMem() {
-	// TODO : require_Memory = basicMemory + ;
+	/* Memory requirement:
+	*	for every user the container needs 8 MB memory.
+	*	for every object the container needs 64 MB memopry.
+	*/
+	require_Memory = basicMemory + _usrs * 8 + _objs * 64;
+	if (require_Memory > bound_Memory) {
+		require_Memory = bound_Memory;
+	}
 }
 void VRChatroom::updateBDW() {
-	// TODO require_Bandwidth = basicBandwidth + ;
+	/* Bandwidth requirement:
+	*	for every user the container needs 64 MB/s bandwidth.	
+	*/
+	require_BandWidth = basicBandwidth + _usrs * 64;
+	if (require_BandWidth > bound_Bandwidth) {
+		require_BandWidth = bound_Bandwidth;
+	}
 }
