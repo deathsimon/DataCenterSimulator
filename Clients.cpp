@@ -37,6 +37,7 @@ bool Clients::hasNewContainerRequest(unsigned int time){
 	VRChatroom *newContainer;
 	for each (unsigned int t in *inputTrace) {
 		newContainer = new VRChatroom();
+		newContainer->setID(container_id++);
 		newContainer->setupInputs(traces[t]);
 		newlyCreated.push_back(newContainer);
 	}

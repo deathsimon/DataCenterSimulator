@@ -32,4 +32,5 @@ private:
 
 	vector<InputForVRChat*> traces;
 	deque<tuple<unsigned int, vector<unsigned int>*>*> sequence;
+	unsigned int container_id = 0;
 };
