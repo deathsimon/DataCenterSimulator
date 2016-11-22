@@ -30,8 +30,7 @@ public:
 	Server() : Server(SERVER_CORE, SERVER_MMRY, SERVER_BAND) {};
 	Server(unsigned int cores, unsigned int memory, unsigned int bandwidth);	
 	/* fetch server information */
-	void getCurrUsage(double *uCore, double *uMemory, double *uBandwidth);
-	double getScore(AppContainer* targetContainer);
+	void getCurrUsage(double &uCore, double &uMemory, double &uBandwidth);	
 	int getStatus();
 	/* assign target container to the server */
 	void deployContainer(AppContainer* targetContainer);
@@ -45,10 +44,10 @@ private:
 	unsigned int total_Core;
 	unsigned int total_Memory;
 	unsigned int total_Bandwidth;
-	/* resources assigned to container */
-	unsigned int assigned_Core = 0;
-	unsigned int assigned_Memory = 0;
-	unsigned int assigned_Bandwidth = 0;
+	/* resources required by the containers */
+	unsigned int requested_Core = 0;
+	unsigned int requested_Memory = 0;
+	unsigned int requested_Bandwidth = 0;
 	/* Server status */
 	unsigned int status;
 	/* hosting containers */

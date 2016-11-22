@@ -56,7 +56,9 @@ void DataCenter::updateServerStatus(){
  */
 void DataCenter::updateResourceDistribution() {
 	for each (Server* s in serverlist) {
-		s->distributeResource();
+		if (s->getStatus() != svr_idle)	{
+			s->distributeResource();
+		}		
 	}
 }
 /**
@@ -70,8 +72,7 @@ bool DataCenter::newContainerRequest(AppContainer * newCntr) {
 		/* boot a new server */
 		targetServer = bootServer();		
 	}
-	targetServer->deployContainer(newCntr);	
-	targetServer->updateUsage();
+	targetServer->deployContainer(newCntr);		
 	return false;
 }
 

@@ -74,7 +74,7 @@ void AppContainer::getResourceAssigned(tuple<unsigned int, unsigned int, unsigne
  * DESCRIPTION: return the current usage of each resource in tuple format
  */
 void AppContainer::getResourceRequirement(tuple<unsigned int, unsigned int, unsigned> &resources) {
-	//(*resources) = std::make_tuple(usage_Core, usage_Memory, usage_Bandwidth);
+	resources = std::make_tuple(require_Core, require_Memory, require_BandWidth);
 }
 /**
  * Constructor of class VRChatroom
