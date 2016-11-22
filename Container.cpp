@@ -61,17 +61,29 @@ void AppContainer::assignResource(tuple<unsigned int, unsigned int, unsigned int
 	std::tie(assigned_Core, assigned_Memory, assigned_Bandwidth) = resource;
 }
 /**
+ * FUNCTION NAME: getResourceAssigned
+ *
+ * DESCRIPTION: return the amount of resource assigned in tuple format
+ */
+void AppContainer::getResourceAssigned(tuple<unsigned int, unsigned int, unsigned int>* resources) {
+	(*resources) = std::make_tuple(assigned_Core, assigned_Memory, assigned_Bandwidth);
+}
+/**
  * FUNCTION NAME: getResourceUsage
  *
  * DESCRIPTION: return the current usage of each resource in tuple format
  */
-void AppContainer::getResourceUsage(tuple<double, unsigned int, double>* resources) {
-	(*resources) = std::make_tuple(usage_Core, usage_Memory, usage_Bandwidth);
+void AppContainer::getResourceRequirement(tuple<unsigned int, unsigned int, unsigned>* resources) {
+	//(*resources) = std::make_tuple(usage_Core, usage_Memory, usage_Bandwidth);
 }
 /**
  * Constructor of class VRChatroom
  */
 VRChatroom::VRChatroom(unsigned int usr, unsigned int obj) {
+	/* Set basic resource usage */
+	basicCore = BASIC_CPU;
+	basicMemory = BASIC_MMRY;
+	basicBandwidth = BASIC_BAND;
 	/* Set the number of users and objects */
 	update(usr, obj);
 }
@@ -115,9 +127,15 @@ void VRChatroom::updateWorkload() {
  *
  * RETURN: performance score
  */
-double VRChatroom::getPerformance() {
-	// TODO : calculate the performance / penalty according to the resource requirement and assigned
-	return 0.0;
+double VRChatroom::getPerformance() {	
+	double penalty = 0.0;
+	/* if insufficient resource, return the number of users being affected. */
+	if (assigned_Core < require_Core ||
+		assigned_Memory < require_Memory ||
+		assigned_Bandwidth < require_BandWidth) {		
+		penalty = (double)_usrs;		
+	}
+	return penalty;
 }
 /**
  * FUNCTION NAME: update
@@ -153,14 +171,18 @@ void VRChatroom::updateRequirements() {
 	updateBDW();	
 }
 void VRChatroom::updateCPU() {
-	// TODO
-	// usage_Core = ;
+	/* Core requirement:
+	 *	for every 3 users the container needs 1 core.
+	 *	for every 10 objects the container needs 1 core.
+	 */
+	require_Core = basicCore + (_usrs / 3) + (_objs / 10);
+	if (require_Core > bound_Core) {
+		require_Core = bound_Core;
+	}
 }
 void VRChatroom::updateMem() {
-	// TODO
-	// usage_Memory = ;
+	// TODO : require_Memory = basicMemory + ;
 }
 void VRChatroom::updateBDW() {
-	// TODO
-	// usage_Bandwidth = ;
+	// TODO require_Bandwidth = basicBandwidth + ;
 }

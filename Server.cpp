@@ -15,11 +15,15 @@ Server::Server(unsigned int cores, unsigned int memory, unsigned int bandwidth) 
 
 	printf("Server up\n");
 }
-
-void Server::getCurrUsage(double *uCore, unsigned int *uMemory, double *uBandwidth){
-	(*uCore) = usage_Core;
-	(*uMemory) = usage_Memory;
-	(*uBandwidth) = usage_Bandwidth;
+/**
+ * FUNCTION NAME: getCurrUsage
+ *
+ * DESCRIPTION: Compute the current usage (in percentage) of each resource
+ */
+void Server::getCurrUsage(double *uCore, double *uMemory, double *uBandwidth){
+	(*uCore) = (double) assigned_Core / (double) total_Core;
+	(*uMemory) = (double) assigned_Memory / (double) total_Memory;
+	(*uBandwidth) = (double) assigned_Bandwidth / (double) total_Bandwidth;
 }
 
 double Server::getScore(AppContainer * targetContainer){
@@ -45,19 +49,18 @@ void Server::deployContainer(AppContainer * targetContainer){
  * DESCRIPTION: Update the resource usage of this server
  */
 void Server::updateUsage(){
-	usage_Core = 0.0;
-	usage_Memory = 0;
-	usage_Bandwidth = 0.0;
+	assigned_Core = 0;
+	assigned_Memory = 0;
+	assigned_Bandwidth = 0;
 
-	/* Get the actual resource usage of each container */
-	tuple<double, unsigned int, double> resources;
+	/* Get the resource assigned to each container */
+	tuple<unsigned int, unsigned int, unsigned int> resources;
 	for each (AppContainer* c in containers) {
-		c->getResourceUsage(&resources);		
-		usage_Core += std::get<hw_Core>(resources);
-		usage_Memory += std::get<hw_Memory>(resources);
-		usage_Bandwidth += std::get<hw_Bandwidth>(resources);
+		c->getResourceAssigned(&resources);
+		assigned_Core += std::get<hw_Core>(resources);
+		assigned_Memory += std::get<hw_Memory>(resources);
+		assigned_Bandwidth += std::get<hw_Bandwidth>(resources);
 	}
-
 	updateStatus();
 }
 /**
@@ -79,9 +82,9 @@ void Server::updateStatus() {
 	if (containers.empty()) {
 		status = svr_idle;
 	}
-	else if (usage_Core > total_Core 
-		|| usage_Memory > total_Memory 
-		|| usage_Bandwidth > total_Bandwidth) {
+	else if (assigned_Core > total_Core 
+		|| assigned_Memory > total_Memory
+		|| assigned_Bandwidth > total_Bandwidth) {
 		status = svr_overload;
 	}
 	else {
@@ -95,15 +98,15 @@ void Server::updateStatus() {
  * DESCRIPTION: Distribute resources to the hosted containers
  */
 void Server::distributeResource(){	
-	double usage_Core = 0.0;
-	unsigned int usage_Memory = 0;
-	double usage_Bandwidth = 0.0;
+	unsigned int require_Core = 0;
+	unsigned int require_Memory = 0;
+	unsigned int require_BandWidth = 0;
 
-	/* First, get the actual resource usage of each container */
-	tuple<double, unsigned int, double> resources;
+	/* First, get the resource requirement of each container */
+	tuple<unsigned int, unsigned int, unsigned int> req_resources;
 	for each (AppContainer* c in containers)	{
-		c->getResourceUsage(&resources);
-		std::tie(usage_Core, usage_Memory, usage_Bandwidth) = resources;
+		c->getResourceRequirement(&req_resources);
+		std::tie(require_Core, require_Memory, require_BandWidth) = req_resources;
 		// TODO :
 	}
 	// TODO : assign resources to the containers
