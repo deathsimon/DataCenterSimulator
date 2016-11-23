@@ -30,12 +30,15 @@ int main(int argc, char* argv[]) {
 	for (int time = 1; time < SIMUTIME; time++) {
 		/* Update the workload of each container */
 		client.updateWorkload();
+						
+		/* Update the resource requirement of each server */
+		DC.updateServerResReq();
+
+		/* Distribution resources of each server to the containers*/
+		DC.DistributeResource();
 
 		/* Estimate the performance / penalty of each container */
 		client.estimatePerf();
-
-		/* Update status of servers */
-		DC.updateServerStatus();
 
 		/* Check if there are new container requests */
 		if (client.hasNewContainerRequest(time)) {
@@ -45,10 +48,7 @@ int main(int argc, char* argv[]) {
 				DC.newContainerRequest(newCntr);
 			};
 		}
-
-		/* Update the resource distribution of servers */
-		DC.updateResourceDistribution();
-
+				
 		/* Remove the suspended containers from list */
 		client.cleanSuspended();
 

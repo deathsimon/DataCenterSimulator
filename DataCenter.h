@@ -19,8 +19,8 @@ public:
 	DataCenter();
 	~DataCenter();
 	Server* bootServer();
-	void updateServerStatus();
-	void updateResourceDistribution();
+	void updateServerResReq();
+	void DistributeResource();
 	bool newContainerRequest(AppContainer* newCntr);
 
 private:

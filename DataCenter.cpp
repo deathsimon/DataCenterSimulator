@@ -40,21 +40,21 @@ Server* DataCenter::bootServer() {
 	return newServer;
 }
 /**
- * FUNCTION NAME: updateServerStatus
+ * FUNCTION NAME: updateServerResReq
  *
- * DESCRIPTION: Update the resource usage of each server
+ * DESCRIPTION: Update the resource requirement of each server
  */
-void DataCenter::updateServerStatus(){
+void DataCenter::updateServerResReq(){
 	for each (Server *s in serverlist) {
 		s->updateUsage();
 	}
 }
 /**
- * FUNCTION NAME: updateResourceDistribution
+ * FUNCTION NAME: DistributeResource
  *
- * DESCRIPTION: Ask servers to redistibute their resources to containers
+ * DESCRIPTION: Ask servers to distibute their resources to containers
  */
-void DataCenter::updateResourceDistribution() {
+void DataCenter::DistributeResource() {
 	for each (Server* s in serverlist) {
 		if (s->getStatus() != svr_idle)	{
 			s->distributeResource();
