@@ -8,14 +8,32 @@
 #include "stdincludes.h"
 #include "ContainerInput.h"
 
-// Marcos
+ /* Container requirement mode 
+  *		CNTR_SPEC : according to container specification
+  *		CNTR_RSRV : according to actual requirement but reserve extra resources
+  *		CNTR_ACTL : according to actual requirement
+  */
+// HACK: only one of the three should be enable
+//#define	CNTR_SPEC
+//#define	CNTR_RSRV
+#define	CNTR_ACTL
+
+/* Conatiner specification */
 #define SPEC_CORE	4
 #define SPEC_MMRY	1024
 #define SPEC_BAND	256
 
+/* Basic requirement of a container */
 #define BASIC_CPU	1
 #define BASIC_MMRY	128
 #define BASIC_BAND	32
+
+/* Amount of resource reserved in CNTR_RSRV mode */
+#ifdef CNTR_RSRV
+#define	RSRV_CPU	0
+#define	RSRV_MMRY	128
+#define	RSRV_BAND	32
+#endif // CNTR_RSRV
 
 enum cntrState {
 	CNTR_SUSP, CNTR_ALIVE

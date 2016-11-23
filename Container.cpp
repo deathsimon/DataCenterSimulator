@@ -71,10 +71,18 @@ void AppContainer::getResourceAssigned(tuple<unsigned int, unsigned int, unsigne
 /**
  * FUNCTION NAME: getResourceRequirement
  *
- * DESCRIPTION: return the current requirement of each resource in tuple format
+ * DESCRIPTION: return the requirement of each resource in tuple format
  */
 void AppContainer::getResourceRequirement(tuple<unsigned int, unsigned int, unsigned> &resources) {
+#ifdef CNTR_ACTL
 	resources = std::make_tuple(require_Core, require_Memory, require_BandWidth);
+#else
+#ifdef CNTR_SPEC
+	resources = std::make_tuple(bound_Core, bound_Memory, bound_Bandwidth);
+#else
+	resources = std::make_tuple(require_Core + RSRV_CPU, require_Memory + RSRV_MMRY, require_BandWidth + RSRV_BAND);
+#endif // CNTR_SPEC
+#endif // CNTR_ACTL	
 }
 /**
  * Constructor of class VRChatroom
