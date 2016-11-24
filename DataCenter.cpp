@@ -7,16 +7,16 @@
 #include "DataCenter.h"
 
 /**
- * Constructor of the DataCenter class
+ * Constructor of the class DataCenter
  */
 DataCenter::DataCenter(){	
-	/* add a resource allocator*/
-	resAllo = new ResAllocator(&serverlist);
-
 	/* initialize server list */
 	serverlist.clear();
 	Server* firstServer = new Server();
 	serverlist.push_back(firstServer);
+
+	/* add a resource allocator*/
+	resAllo = new NextFit(serverlist);
 
 	printf("Hello World!\n");
 }
