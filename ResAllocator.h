@@ -21,3 +21,12 @@ private:
 	double getScore(Server* s, AppContainer* target);	
 	unsigned int anchor = 0;
 };
+
+class  BestFit : public ResAllocator {
+public:
+	BestFit(vector<Server*> &serverList) : ResAllocator(serverList) {};
+	virtual Server* scheduleTo(AppContainer* targetContainer);
+private:
+	double getScore(Server* s, AppContainer* target);
+	double remain_ratio(unsigned int r, unsigned int c, unsigned int t);
+};
