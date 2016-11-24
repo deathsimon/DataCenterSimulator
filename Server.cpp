@@ -50,6 +50,14 @@ bool Server::getResourceRemain(tuple<unsigned int, unsigned int, unsigned>& rem_
 	return hasRemaining;
 }
 /**
+ * FUNCTION NAME : getTotalResource
+ *
+ * DESCRIPTION : Get the total amount of each resource
+ */
+ void Server::getTotalResource(tuple<unsigned int, unsigned int, unsigned>& resource) {
+	 resource = std::make_tuple(total_Core, total_Memory, total_Bandwidth);
+ }
+/**
  * FUNCTION NAME: deployContainer
  *
  * DESCRIPTION: Add target container to the list. 

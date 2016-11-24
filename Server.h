@@ -32,6 +32,7 @@ public:
 	/* fetch server information */
 	void getCurrUsage(double &uCore, double &uMemory, double &uBandwidth);
 	bool getResourceRemain(tuple<unsigned int, unsigned int, unsigned> &rem_resource);
+	void getTotalResource(tuple<unsigned int, unsigned int, unsigned> &resource);
 	int getStatus();
 	/* assign target container to the server */
 	void deployContainer(AppContainer* targetContainer);
