@@ -30,3 +30,12 @@ private:
 	double getScore(Server* s, AppContainer* target);
 	double remain_ratio(unsigned int r, unsigned int c, unsigned int t);
 };
+
+class WorstFit : public ResAllocator {
+public:
+	WorstFit(vector<Server*> &serverList) : ResAllocator(serverList) {};
+	virtual Server* scheduleTo(AppContainer* targetContainer);
+private:
+	double getScore(Server* s, AppContainer* target);
+	double remain_ratio(unsigned int r, unsigned int c, unsigned int t);
+};

@@ -116,3 +116,66 @@ double BestFit::getScore(Server * s, AppContainer * target) {
 double BestFit::remain_ratio(unsigned int r, unsigned int c, unsigned int t) {
 	return (1 / (((double)(r - c) / (double)t) + 1));
 }
+
+/**
+ * FUNCTION NAME: scheduleTo
+ *
+ * DESCRIPTION: choose the server for target container using Worst-Fit.
+ *				Worst-Fit find the server that maximize the remaining resource.
+ *
+ * RETURN:	target server if found; else, a nutllptr is returned.
+ */
+Server * WorstFit::scheduleTo(AppContainer * targetContainer) {
+	Server *targetServer = nullptr;
+	double score = 0.0;
+	double max_score = 0.0;
+
+	for each (Server* s in *svrList) {
+		score = getScore(s, targetContainer);
+		if (score > max_score) {
+			targetServer = s;
+			max_score = score;
+		}
+	}
+	return targetServer;
+}
+/**
+ * FUNCTION NAME: getScore
+ *
+ * DESCRIPTION: the score of the server for target container.
+ *				the score is calculated by function remain_ratio().
+ *
+ * RETURN: score; -1.0 if cannot accomodate.
+ */
+double WorstFit::getScore(Server * s, AppContainer * target) {
+	double score = -1.0;
+	std::tuple<unsigned int, unsigned int, unsigned int> remain_resource;
+	std::tuple<unsigned int, unsigned int, unsigned int> total_resource;
+	std::tuple<unsigned int, unsigned int, unsigned int> request_resource;
+	s->getResourceRemain(remain_resource);
+	s->getTotalResource(total_resource);
+	target->getResourceRequirement(request_resource);
+
+	if (std::get<hw_Core>(remain_resource) >= std::get<hw_Core>(request_resource)
+		&& std::get<hw_Memory>(remain_resource) >= std::get<hw_Memory>(request_resource)
+		&& std::get<hw_Bandwidth>(remain_resource) >= std::get<hw_Bandwidth>(request_resource)) {
+		score = 1.0;
+		double tmp = score;
+		if (score > (tmp = remain_ratio(std::get<hw_Core>(remain_resource),
+			std::get<hw_Core>(request_resource), std::get<hw_Core>(total_resource)))) {
+			score = tmp;
+		}
+		if (score > (tmp = remain_ratio(std::get<hw_Memory>(remain_resource),
+			std::get<hw_Memory>(request_resource), std::get<hw_Memory>(total_resource)))) {
+			score = tmp;
+		}
+		if (score > (tmp = remain_ratio(std::get<hw_Bandwidth>(remain_resource),
+			std::get<hw_Bandwidth>(request_resource), std::get<hw_Bandwidth>(total_resource)))) {
+			score = tmp;
+		}
+	}
+	return score;
+}
+double WorstFit::remain_ratio(unsigned int r, unsigned int c, unsigned int t) {
+	return (double)(r - c) / (double)t;
+}
