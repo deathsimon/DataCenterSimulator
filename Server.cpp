@@ -95,6 +95,22 @@ void Server::updateUsage(){
 	updateStatus();
 }
 /**
+ * FUNCTION NAME: getLongestUpTime
+ *
+ * DESCRIPTION: Return the exsisting time of the earliest started container on the server
+ *
+ * RETURN: time t
+ */
+ unsigned int Server::getLongestUpTime() {
+	 unsigned int t = 0;
+	 for each (AppContainer* c in containers) {
+		 if ( t < c->getUpTime() ) {
+			 t = c->getUpTime();
+		 }
+	 }
+	 return t;
+ }
+/**
  * FUNCTION NAME: getStatus
  *
  * DESCRIPTION: Return the current status of this server

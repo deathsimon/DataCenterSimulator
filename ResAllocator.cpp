@@ -6,6 +6,7 @@
 ResAllocator::ResAllocator(vector<Server*> &serverList) {
 	svrList = &serverList;	
 }
+
 /**
  * FUNCTION NAME: scheduleTo
  *
@@ -179,4 +180,53 @@ double WorstFit::getScore(Server * s, AppContainer * target) {
 }
 double WorstFit::remain_ratio(unsigned int r, unsigned int c, unsigned int t) {
 	return (double)(r - c) / (double)t;
+}
+
+/**
+ * FUNCTION NAME: scheduleTo
+ *
+ * DESCRIPTION: choose the server for target container using Age-Based.
+ *				Age-Based find the server with longevity containers.
+ *
+ * RETURN:	target server if found; else, a nutllptr is returned.
+ */
+Server * AgeBased::scheduleTo(AppContainer * targetContainer) {
+	Server* targetServer = nullptr;
+	double score = 0.0;
+	double max_score = 0.0;
+
+	for each (Server* s in *svrList) {
+		score = getScore(s, targetContainer);
+		if (score > max_score) {
+			targetServer = s;
+			max_score = score;
+		}
+	}
+
+	return targetServer;
+}
+/**
+ * FUNCTION NAME: getScore
+ *
+ * DESCRIPTION: the score of the server for target container.
+ *				the score equals to the longest up time t.
+ *
+ * RETURN: time t as score; -1.0 if cannot accomodate.
+ */
+double AgeBased::getScore(Server * s, AppContainer * target) {
+	double score = -1.0;
+	std::tuple<unsigned int, unsigned int, unsigned int> remain_resource;
+	std::tuple<unsigned int, unsigned int, unsigned int> total_resource;
+	std::tuple<unsigned int, unsigned int, unsigned int> request_resource;
+	s->getResourceRemain(remain_resource);
+	s->getTotalResource(total_resource);
+	target->getResourceRequirement(request_resource);
+
+	if (std::get<hw_Core>(remain_resource) >= std::get<hw_Core>(request_resource)
+		&& std::get<hw_Memory>(remain_resource) >= std::get<hw_Memory>(request_resource)
+		&& std::get<hw_Bandwidth>(remain_resource) >= std::get<hw_Bandwidth>(request_resource)) {
+		score = s->getLongestUpTime() + 1;
+	}
+
+	return score;
 }

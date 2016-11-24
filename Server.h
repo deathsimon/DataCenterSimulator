@@ -38,7 +38,9 @@ public:
 	void deployContainer(AppContainer* targetContainer);
 	void distributeResource();
 	/* update the resource usage of the server*/
-	void updateUsage();	
+	void updateUsage();
+
+	unsigned int getLongestUpTime();
 
 private:
 	void updateStatus();	
