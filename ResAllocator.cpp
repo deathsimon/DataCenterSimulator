@@ -81,7 +81,7 @@ Server * BestFit::scheduleTo(AppContainer * targetContainer){
  * FUNCTION NAME: getScore
  *
  * DESCRIPTION: the score of the server for target container.
- *				the score is calculated by function remain_ration().
+ *				the score is calculated by function remain_ratio().
  *
  * RETURN: score; -1.0 if cannot accomodate.
  */
@@ -110,11 +110,12 @@ double BestFit::getScore(Server * s, AppContainer * target) {
 			std::get<hw_Bandwidth>(request_resource), std::get<hw_Bandwidth>(total_resource)))) {
 			score = tmp;
 		}
+		score++;	// avoid (score == 0)
 	}
-	return score;
+	return 1/score;
 }
 double BestFit::remain_ratio(unsigned int r, unsigned int c, unsigned int t) {
-	return (1 / (((double)(r - c) / (double)t) + 1));
+	return (double)(r - c) / (double)t;
 }
 
 /**
