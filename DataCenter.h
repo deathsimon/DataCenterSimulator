@@ -22,9 +22,16 @@ public:
 	void updateServerResReq();
 	void DistributeResource();
 	bool newContainerRequest(AppContainer* newCntr);
+	void statusReport();
+	void CountServer();
+	void CalculateUsage();
 
 private:
+
+	void getUsage(vector<double> &seq, enum hardwareResource r);
+	void getStatics(vector<double> &seq, tuple<double, double, double> &statics);
+
 	ResAllocator *resAllo;
 	vector<Server*> serverlist;
-	vector<Server*>::iterator currServer;
+	vector<Server*>::iterator currServer;	
 };

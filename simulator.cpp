@@ -48,10 +48,13 @@ int main(int argc, char* argv[]) {
 				DC.newContainerRequest(newCntr);
 			};
 		}
-				
+
 		/* Remove the suspended containers from list */
 		client.cleanSuspended();
 
+		/* Collect the current server and client information */
+		client.statusReport();
+		DC.statusReport();
 	}
 
 	return SUCCESS;

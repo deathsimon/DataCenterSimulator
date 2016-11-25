@@ -23,6 +23,7 @@ public:
 	void updateWorkload();
 	void estimatePerf();
 	void cleanSuspended();
+	void statusReport();
 private:
 	void readTraces(string dir);
 	void readSequence(string filename);

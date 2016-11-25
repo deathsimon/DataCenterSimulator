@@ -78,10 +78,10 @@ void Clients::updateWorkload(){
 void Clients::estimatePerf() {	
 	double performance = 0.0;
 	for each (AppContainer* c in containers) {
-		performance = c->getPerformance();
-		// HACK : print the penalty
-		fprintf(stdout, "container %d has penalty %.2lf\n", c->getID(), performance);		
+		performance += c->getPerformance();			
 	}
+	// HACK : should print using LOG() with the time information
+	fprintf(stdout, "Penalty\t%.2lf\n", performance);
 }
 /**
  * FUNCTION NAME: cleanSuspended
@@ -98,7 +98,10 @@ void Clients::cleanSuspended(){
 			continue;
 		}
 		currContainer++;		
-	}
+	}	
+}
+void Clients::statusReport(){
+	fprintf(stdout, "Containers\t%d\n", containers.size());
 }
 /**
  * FUNCTION NAME: readTraces

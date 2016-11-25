@@ -20,13 +20,15 @@ Server::Server(unsigned int cores, unsigned int memory, unsigned int bandwidth) 
  *
  * DESCRIPTION: Compute the current usage (in percentage) of each resource
  */
-void Server::getCurrUsage(double &uCore, double &uMemory, double &uBandwidth){
-	uCore = (double) requested_Core / (double) total_Core;
+void Server::getCurrUsage(tuple<double, double, double>& resource){	
+	double uCore = (double) requested_Core / (double) total_Core;
 	if (uCore > 1.0) { uCore = 1.0; }
-	uMemory = (double) requested_Memory / (double) total_Memory;
+	double uMemory = (double) requested_Memory / (double) total_Memory;
 	if (uMemory > 1.0) { uMemory = 1.0; }
-	uBandwidth = (double) requested_Bandwidth / (double) total_Bandwidth;
+	double uBandwidth = (double) requested_Bandwidth / (double) total_Bandwidth;
 	if (uBandwidth > 1.0) { uBandwidth = 1.0; }
+
+	resource = std::make_tuple(uCore, uMemory, uBandwidth);
 }
 /**
  * FUNCTION NAME: getResourceRemain

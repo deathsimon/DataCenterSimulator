@@ -19,7 +19,7 @@ AppContainer::AppContainer(unsigned int cores, unsigned int memory, unsigned int
 	_id = -1;
 }
 AppContainer::~AppContainer(){
-	printf("Container id %d is closing after up for %d seconds.\n", _id, upTime);
+	//printf("Container id %d is closing after up for %d seconds.\n", _id, upTime);
 }
 /**
  * FUNCTION NAME: setID, getID
