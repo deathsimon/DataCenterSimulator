@@ -96,6 +96,21 @@ void Server::updateUsage(){
 	}
 	updateStatus();
 }
+
+bool Server::removeSuspend() {
+	bool removed = false;
+	vector<AppContainer*>::iterator it;
+	for (it = containers.begin(); it != containers.end();) {
+		if (!(*it)->isAlive()) {
+			it = containers.erase(it);
+			removed = true;
+			continue;
+		}
+		it++;
+	}
+
+	return removed;
+}
 /**
  * FUNCTION NAME: getLongestUpTime
  *

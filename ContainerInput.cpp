@@ -44,25 +44,20 @@ void InputForVRChat::setupInput(string filename){
 	};
 	infile.close();
 }
+
+bool InputForVRChat::hasNext() {
+	return !inputSeq.empty();
+}
 /**
  * FUNCTION NAME: getNext
  *
  * DESCRIPTION: Get the next pair of (usr, obj) and return True.
- *				If no more workloads, return False.
- *
- * RETURN : hasNext
+ *				If no more workloads, return False. 
  */
-bool InputForVRChat::getNext() {
-	tuple<unsigned int, unsigned int> next;
-	return getNext(next);
-}
-bool InputForVRChat::getNext(tuple<unsigned int, unsigned int> &nxtTuple){
-	bool hasNext = false;
+ void InputForVRChat::getNext(tuple<unsigned int, unsigned int> &nxtTuple){	
 	if (!inputSeq.empty()) {
 		nxtTuple = *inputSeq.front();
 		inputSeq.pop_front();
-		hasNext = true;
 	}
-	return hasNext;
 }
 

@@ -40,6 +40,8 @@ public:
 	/* update the resource usage of the server*/
 	void updateUsage();
 
+	bool removeSuspend();
+
 	unsigned int getLongestUpTime();
 
 private:

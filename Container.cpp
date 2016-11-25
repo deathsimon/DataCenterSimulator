@@ -114,17 +114,19 @@ void VRChatroom::updateWorkload() {
 	tuple<unsigned int, unsigned int> next;
 	unsigned int newUsr;
 	unsigned int newObj;
-	/* fetch information from eventHandler */
-	if (inputs->getNext(next)) {
-		/* get the number of user and objests from the tuple */
-		std::tie(newUsr, newObj) = next;
-		update(newUsr, newObj);
+	
+	assert(inputs->hasNext());
 
-		upTime++;
-	}
-	else {
-		/* no more inputs, suspend the container */
-		update(0, 0);
+	/* fetch information from eventHandler */
+	inputs->getNext(next);
+	/* get the number of user and objests from the tuple */
+	std::tie(newUsr, newObj) = next;
+	update(newUsr, newObj);
+
+	upTime++;
+	
+	if(!inputs->hasNext()) {
+		/* no more inputs, suspend the container */		
 		state = CNTR_SUSP;
 	}
 }

@@ -28,6 +28,8 @@ int main(int argc, char* argv[]) {
 		
 	// HACK : improvement required
 	for (int time = 1; time < SIMUTIME; time++) {
+		fprintf(stdout, "[%d ~ %d]\n", time - 1, time);
+
 		/* Update the workload of each container */
 		client.updateWorkload();
 						
@@ -40,6 +42,18 @@ int main(int argc, char* argv[]) {
 		/* Estimate the performance / penalty of each container */
 		client.estimatePerf();
 
+		/* Collect the server and client information */
+		client.statusReport();
+		DC.statusReport();
+
+		/* Remove the suspended containers from list */
+		DC.cleanSuspended();
+		client.cleanSuspended();
+
+		/* The above happens between time t-1 and t.
+		 * The below happens at time t.
+		 */
+
 		/* Check if there are new container requests */
 		if (client.hasNewContainerRequest(time)) {
 			/* Deploy the newly created container to server */
@@ -47,14 +61,7 @@ int main(int argc, char* argv[]) {
 			while ((newCntr = client.getNewContainer()) != nullptr) {
 				DC.newContainerRequest(newCntr);
 			};
-		}
-
-		/* Remove the suspended containers from list */
-		client.cleanSuspended();
-
-		/* Collect the current server and client information */
-		client.statusReport();
-		DC.statusReport();
+		}		
 	}
 
 	return SUCCESS;

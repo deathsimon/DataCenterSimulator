@@ -25,6 +25,7 @@ public:
 	void statusReport();
 	void CountServer();
 	void CalculateUsage();
+	void cleanSuspended();
 
 private:
 

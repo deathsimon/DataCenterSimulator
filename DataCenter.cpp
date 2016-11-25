@@ -116,6 +116,14 @@ void DataCenter::CalculateUsage() {
 	fprintf(stdout, "Network\t%.2lf\t%.2lf\t%.2lf\n", std::get<0>(statics), std::get<1>(statics), std::get<2>(statics));
 }
 
+void DataCenter::cleanSuspended() {
+	for each (Server* s in serverlist) {
+		if (s->removeSuspend()) {
+			s->updateUsage();
+		}
+	}
+}
+
 void DataCenter::getUsage(vector<double> &seq, hardwareResource r){
 	tuple<double, double, double> resource;
 	double tmp;	
